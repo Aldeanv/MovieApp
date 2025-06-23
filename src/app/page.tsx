@@ -17,9 +17,9 @@ export default async function HomePage() {
           <input
             type="text"
             placeholder="Cari film..."
-            className="w-full rounded-full pl-4 pr-10 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-600"
+            className="w-full text-white rounded-full pl-4 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-red-600"
           />
-          <Search className="absolute right-3 top-2.5 text-gray-600" />
+          <Search className="absolute right-3 top-2.5 text-white" />
         </div>
       </header>
 

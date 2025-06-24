@@ -1,24 +1,31 @@
+// lib/tmdb.ts
 import { TMDbResponse, MovieDetail } from "@/types/tmdb";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
-export async function fetchFromTMDb(endpoint: string): Promise<TMDbResponse> {
-  const url = `${BASE_URL}${endpoint}?api_key=${process.env.TMDB_API_KEY}&language=id-ID,en-US`;
-  const res = await fetch(url);
+export async function fetchFromTMDb<T = TMDbResponse>(
+  endpoint: string,
+  params?: Record<string, string>
+): Promise<T> {
+  const queryParams = new URLSearchParams({
+    api_key: process.env.TMDB_API_KEY || "",
+    language: "id-ID,en-US",
+    ...params,
+  });
+
+  const url = `${BASE_URL}${endpoint}?${queryParams}`;
+  const res = await fetch(url, { next: { revalidate: 60 * 60 } });
+
   if (!res.ok) {
-    console.error("Error status TMDb:", res.status, await res.text());
-    throw new Error("Gagal mengambil data dari TMDb");
+    const errorText = await res.text();
+    throw new Error(`Error TMDb ${res.status}: ${errorText}`);
   }
+
   return res.json();
 }
 
-// ✅ Khusus detail film
 export async function fetchMovieDetail(id: string): Promise<MovieDetail> {
-  const url = `${BASE_URL}/movie/${id}?api_key=${process.env.TMDB_API_KEY}&append_to_response=videos,credits,similar&language=id-ID`;
-  const res = await fetch(url);
-  if (!res.ok) {
-    console.error("Error status TMDb Detail:", res.status, await res.text());
-    throw new Error("Gagal mengambil data detail dari TMDb");
-  }
-  return res.json();
+  return fetchFromTMDb<MovieDetail>(`/movie/${id}`, {
+    append_to_response: "videos,credits,similar",
+  });
 }

@@ -7,7 +7,18 @@ const nextConfig: NextConfig = {
 // next.config.js
 module.exports = {
   images: {
-    domains: ['image.tmdb.org'], // Izinkan gambar dari TMDb
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "image.tmdb.org",
+        pathname: "/t/p/**",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/photo-**",
+      },
+    ],
   },
 };
 

@@ -59,6 +59,7 @@ export interface MovieDetail {
   similar?: {
     results: SimilarMovie[];
   };
+  backdrop_path?: string;
 }
 
 export interface TMDbResponse {

@@ -1,32 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CastDetail, MovieCredit } from "@/types/tmdb";
 import Navbar from "@/component/navbar";
-
-async function fetchPersonDetail(id: string): Promise<CastDetail> {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.TMDB_API_KEY}&language=en-US`
-  );
-  if (!res.ok) throw new Error("Failed to fetch cast details");
-  return res.json();
-}
-
-async function fetchPeopleDetail(id: string): Promise<CastDetail> {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.TMDB_API_KEY}&language=id-ID`
-  );
-  if (!res.ok) throw new Error("Failed to fetch localized details");
-  return res.json();
-}
-
-async function fetchPersonCredits(id: string): Promise<MovieCredit[]> {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.TMDB_API_KEY}&language=id-ID`
-  );
-  if (!res.ok) throw new Error("Failed to fetch filmography");
-  const data = await res.json();
-  return data.cast;
-}
+import { fetchPersonDetail, fetchPeopleDetail, fetchPersonCredits } from "@/lib/tmdb";
 
 export default async function CastDetailPage({
   params,

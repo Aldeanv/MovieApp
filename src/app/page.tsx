@@ -1,4 +1,3 @@
-// app/page.tsx
 import { fetchFromTMDb } from "@/lib/tmdb";
 import { TMDbResponse } from "@/types/tmdb";
 import HomePage from "@/component/HomePage";

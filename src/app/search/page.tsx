@@ -1,4 +1,3 @@
-// app/search/page.tsx
 import { fetchFromTMDb } from "@/lib/tmdb";
 import { TMDbResponse } from "@/types/tmdb";
 import Image from "next/image";

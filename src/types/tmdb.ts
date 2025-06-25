@@ -81,7 +81,6 @@ export interface CastDetail {
   movies: MovieCredit[];
   popularity: number;
   kwown_for?: MovieCredit[];
-  homepage?: string;
   also_known_as?: string[];
 }
 
@@ -90,4 +89,7 @@ export interface MovieCredit {
   title: string;
   poster_path: string;
   release_date: string;
+  character?: string;
+  overview?: string;
+  vote_average?: number;
 }

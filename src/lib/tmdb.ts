@@ -9,7 +9,7 @@ export async function fetchFromTMDb<T = TMDbResponse>(
 ): Promise<T> {
   const queryParams = new URLSearchParams({
     api_key: process.env.TMDB_API_KEY || "",
-    language: "en-US",
+    language: "id-ID,en-US",
     ...params,
   });
 

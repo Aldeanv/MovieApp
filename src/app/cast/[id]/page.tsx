@@ -5,9 +5,17 @@ import Navbar from "@/component/navbar";
 
 async function fetchPersonDetail(id: string): Promise<CastDetail> {
   const res = await fetch(
+    `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.TMDB_API_KEY}&language=en-US`
+  );
+  if (!res.ok) throw new Error("Failed to fetch cast details");
+  return res.json();
+}
+
+async function fetchPeopleDetail(id: string): Promise<CastDetail> {
+  const res = await fetch(
     `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.TMDB_API_KEY}&language=id-ID`
   );
-  if (!res.ok) throw new Error("Gagal memuat data pemain");
+  if (!res.ok) throw new Error("Failed to fetch localized details");
   return res.json();
 }
 
@@ -15,7 +23,7 @@ async function fetchPersonCredits(id: string): Promise<MovieCredit[]> {
   const res = await fetch(
     `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.TMDB_API_KEY}&language=id-ID`
   );
-  if (!res.ok) throw new Error("Gagal memuat daftar film pemain");
+  if (!res.ok) throw new Error("Failed to fetch filmography");
   const data = await res.json();
   return data.cast;
 }
@@ -25,113 +33,183 @@ export default async function CastDetailPage({
 }: {
   params: { id: string };
 }) {
-  const person = await fetchPersonDetail(params.id);
-  const movies = await fetchPersonCredits(params.id);
+  const [personEN, personID, movies] = await Promise.all([
+    fetchPersonDetail(params.id),
+    fetchPeopleDetail(params.id),
+    fetchPersonCredits(params.id),
+  ]);
+
+  const sortedMovies = [...movies].sort(
+    (a, b) =>
+      new Date(b.release_date || 0).getTime() -
+      new Date(a.release_date || 0).getTime()
+  );
 
   return (
-    <div className="bg-gray-950 text-gray-100 min-h-screen pt-16">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 to-gray-900 text-white">
       <Navbar />
-      {/* PROFILE CARD */}
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-10 items-center bg-slate-800/50 backdrop-blur-xl rounded-2xl p-8 shadow-2xl border border-white/10 transition-all hover:shadow-blue-500/20">
-        {/* PHOTO */}
-        <div className="relative w-[260px] h-[390px] flex-shrink-0 overflow-hidden rounded-2xl ring-2 ring-blue-500/40 shadow-lg transform transition hover:scale-105">
-          {person.profile_path ? (
-            <Image
-              src={`https://image.tmdb.org/t/p/w500${person.profile_path}`}
-              alt={person.name}
-              width={260}
-              height={390}
-              className="object-cover w-full h-full"
-            />
-          ) : (
-            <div className="bg-slate-700 w-full h-full flex items-center justify-center text-slate-400 italic">
-              No Image
-            </div>
-          )}
-        </div>
 
-        {/* INFO */}
-        <div className="space-y-5 flex-1">
-          <h1 className="text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-            {person.name}
-          </h1>
+      {/* HEADER */}
+      <header className="relative h-[70vh] overflow-hidden">
+        {personEN.profile_path ? (
+          <Image
+            src={`https://image.tmdb.org/t/p/original${personEN.profile_path}`}
+            alt={personEN.name}
+            fill
+            priority
+            className="object-cover opacity-40"
+          />
+        ) : (
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 absolute inset-0" />
+        )}
 
-          {person.also_known_as?.length ? (
-            <p className="text-sm text-slate-300">
-              Alias:{" "}
-              <span className="italic">{person.also_known_as.join(", ")}</span>
-            </p>
-          ) : null}
-
-          <p className="text-blue-200 font-medium">
-            {person.known_for_department || "Pemeran"}
-          </p>
-          <p className="text-slate-200 flex gap-1 items-center">
-            🎂{" "}
-            {person.birthday
-              ? new Date(person.birthday).toLocaleDateString("id-ID")
-              : "Tanggal lahir tidak diketahui"}
-            {person.place_of_birth ? `, ${person.place_of_birth}` : ""}
-          </p>
-          <p className="text-slate-200 flex gap-1 items-center">
-            ✨ Popularitas: {person.popularity.toFixed(2)}
-          </p>
-
-          {person.homepage && (
-            <Link
-              href={person.homepage}
-              target="_blank"
-              className="inline-block mt-2 text-blue-400 underline hover:text-blue-300 transition"
-            >
-              🌐 Situs Resmi
-            </Link>
-          )}
-
-          <p className="text-slate-200 leading-relaxed mt-4 text-justify">
-            {person.biography || "Biografi tidak tersedia."}
-          </p>
-        </div>
-      </div>
-
-      {/* FILMOGRAPHY */}
-      <div className="max-w-7xl mx-auto mt-12 space-y-6">
-        <h2 className="text-3xl font-bold border-b border-slate-700 pb-2">
-          🎥 Film yang Dibintangi
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
-          {movies.map((movie) => (
-            <Link
-              key={movie.id}
-              href={`/movie/${movie.id}`}
-              className="bg-slate-800/40 backdrop-blur-lg rounded-xl overflow-hidden border border-white/10 shadow-lg transform transition hover:scale-105 hover:shadow-2xl"
-            >
-              {movie.poster_path ? (
-                <Image
-                  src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-                  alt={movie.title}
-                  width={200}
-                  height={300}
-                  className="object-cover w-full h-auto"
-                />
-              ) : (
-                <div className="bg-slate-700 h-[300px] flex items-center justify-center text-slate-400 text-sm">
-                  No Image
-                </div>
-              )}
-              <div className="p-3 text-center space-y-1">
-                <h3 className="font-medium text-slate-50 text-sm line-clamp-2">
-                  {movie.title}
-                </h3>
-                {movie.release_date && (
-                  <span className="text-xs text-slate-400">
-                    ({new Date(movie.release_date).getFullYear()})
-                  </span>
-                )}
+        <div className="absolute bottom-0 left-0 right-0 p-8 z-10 flex flex-col lg:flex-row lg:items-center gap-8 max-w-7xl mx-auto">
+          {/* PHOTO CARD */}
+          <div className="relative w-48 h-64 lg:w-64 lg:h-80 bg-slate-800 rounded-xl overflow-hidden shadow-xl">
+            {personEN.profile_path ? (
+              <Image
+                src={`https://image.tmdb.org/t/p/w500${personEN.profile_path}`}
+                alt={personEN.name}
+                fill
+                className="object-cover"
+              />
+            ) : (
+              <div className="bg-slate-700 w-full h-full flex items-center justify-center text-slate-400">
+                No Image
               </div>
-            </Link>
-          ))}
+            )}
+          </div>
+
+          {/* INFO */}
+          <div>
+            <h1 className="text-5xl lg:text-6xl font-extrabold bg-clip-text drop-shadow-md">
+              {personEN.name}
+            </h1>
+            <div className="flex flex-wrap gap-2 mt-3">
+              <span className="px-4 py-1 bg-indigo-500/70 text-white rounded-full text-sm font-medium">
+                {personEN.known_for_department}
+              </span>
+              {personEN.birthday && (
+                <span className="px-4 py-1 bg-slate-800 border border-indigo-500 text-white rounded-full text-sm">
+                  {new Date(personEN.birthday).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </span>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
+      </header>
+
+      {/* CONTENT */}
+      <main className="max-w-7xl mx-auto px-4 py-12 space-y-16">
+        <section className="flex flex-col lg:flex-row gap-8">
+          {/* Sidebar */}
+          <aside className="lg:w-1/3 sticky top-8 self-start">
+            <div className="bg-slate-800/50 border border-indigo-500/30 rounded-xl p-6 space-y-6 shadow-md">
+              <div>
+                <h3 className="text-xs font-semibold text-indigo-200 uppercase mb-1">
+                  Also Known As
+                </h3>
+                <p className="text-slate-200">
+                  {personEN.also_known_as?.join(", ") || "N/A"}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xs font-semibold text-indigo-200 uppercase mb-1">
+                  Place of Birth
+                </h3>
+                <p className="text-slate-200">
+                  {personEN.place_of_birth || "N/A"}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xs font-semibold text-indigo-200 uppercase mb-1">
+                  Gender
+                </h3>
+                <p className="text-slate-200">
+                  {personEN.gender === 1 ? "Female" : "Male"}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xs font-semibold text-indigo-200 uppercase mb-1">
+                  Popularity
+                </h3>
+                <p className="text-slate-200">
+                  {personEN.popularity.toFixed(2)}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xs font-semibold text-indigo-200 uppercase mb-1">
+                  Movies
+                </h3>
+                <p className="text-slate-200">
+                  {sortedMovies.length} movies
+                </p>
+              </div>
+            </div>
+          </aside>
+
+          {/* Biography */}
+          <div className="lg:w-2/3">
+            <h2 className="text-3xl font-bold mb-4 border-l-4 pl-4">
+              Biography
+            </h2>
+            <p className="text-slate-300 leading-relaxed">
+              {personID.biography && personID.biography.trim() !== ""
+                ? personID.biography
+                : personEN.biography || "Biography not available."}
+            </p>
+          </div>
+        </section>
+
+        {/* Filmography */}
+        <section>
+          <h2 className="text-3xl font-bold mb-8 border-l-4 border-indigo-500 pl-4">
+            Filmography
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            {sortedMovies.map((movie) => (
+              <Link
+                href={`/movie/${movie.id}`}
+                key={movie.id}
+                className="group bg-slate-800/50 border border-indigo-500/20 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition"
+              >
+                <div className="relative w-full h-64 bg-slate-900 overflow-hidden">
+                  {movie.poster_path ? (
+                    <Image
+                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                      alt={movie.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-slate-500">
+                      No Image
+                    </div>
+                  )}
+                </div>
+                <div className="p-3 text-center bg-slate-900/40">
+                  <h3 className="font-medium text-slate-200 line-clamp-2 group-hover:text-indigo-300 transition-colors">
+                    {movie.title}
+                  </h3>
+                  {movie.release_date && (
+                    <p className="text-xs text-slate-500 mt-1">
+                      {new Date(movie.release_date).getFullYear()}
+                    </p>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </main>
+
+      <footer className="bg-slate-800 border-t border-indigo-500/20 py-8 text-center text-slate-400 text-sm">
+        © {new Date().getFullYear()} Movie Database. All rights reserved.
+      </footer>
     </div>
   );
 }

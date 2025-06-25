@@ -67,3 +67,27 @@ export interface TMDbResponse {
   total_pages: number;
   total_results: number;
 }
+
+export interface CastDetail {
+  id: number;
+  name: string;
+  gender: number;
+  original_name: string;
+  biography: string;
+  profile_path: string;
+  birthday?: string;
+  place_of_birth?: string;
+  known_for_department?: string;
+  movies: MovieCredit[];
+  popularity: number;
+  kwown_for?: MovieCredit[];
+  homepage?: string;
+  also_known_as?: string[];
+}
+
+export interface MovieCredit {
+  id: number;
+  title: string;
+  poster_path: string;
+  release_date: string;
+}

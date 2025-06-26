@@ -14,6 +14,7 @@ export interface Video {
   key: string;
   site: "YouTube" | string;
   type: "Trailer" | "Teaser" | "Clip";
+  size: number;
 }
 
 export interface Cast {
@@ -60,6 +61,9 @@ export interface MovieDetail {
     results: SimilarMovie[];
   };
   backdrop_path?: string;
+  revenue?: number;
+  budget?: number;
+  spoken_languages?: { name: string }[];
 }
 
 export interface TMDbResponse {

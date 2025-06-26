@@ -107,4 +107,5 @@ export interface TvShow {
   vote_average: number;
   first_air_date: string;
   backdrop_path: string;
+  number_of_seasons: number;
 }

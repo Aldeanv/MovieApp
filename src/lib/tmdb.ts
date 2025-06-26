@@ -57,17 +57,20 @@ export async function fetchPersonCredits(id: string): Promise<MovieCredit[]> {
   return data.cast;
 }
 
-export async function fetchTvShows(): Promise<TvShow[]> {
-  const apiKey = process.env.TMDB_API_KEY!;
+export async function fetchTvShows(page = 1): Promise<TvShow[]> {
   const res = await fetch(
-    `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`,
+    `${BASE_URL}/tv/popular?api_key=${process.env.TMDB_API_KEY}&language=en-US&page=${page}`,
     { next: { revalidate: 86400 } }
   );
 
-  if (!res.ok) throw new Error(`Gagal memuat data TV shows (${res.status})`);
+  if (!res.ok) {
+    throw new Error("Gagal memuat data TV shows.");
+  }
+
   const data = await res.json();
-  return data.results;
+  return data.results as TvShow[];
 }
+
 
 export async function fetchTrendingTvShows(): Promise<TvShow[]> {
   const res = await fetch(

@@ -341,14 +341,6 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
                 <User size={24} className="text-amber-400" />
                 <span>Top Cast</span>
               </h2>
-              {movie.credits.cast.length > 10 && (
-                <Link 
-                  href="#full-cast" 
-                  className="text-amber-400 hover:text-amber-300 text-sm"
-                >
-                  View All Cast
-                </Link>
-              )}
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">

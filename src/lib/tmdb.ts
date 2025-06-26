@@ -1,6 +1,7 @@
 // lib/tmdb.ts
 import { TMDbResponse, MovieDetail } from "@/types/tmdb";
 import { CastDetail, MovieCredit } from "@/types/tmdb";
+import { TvShow } from "@/types/tmdb";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -54,4 +55,16 @@ export async function fetchPersonCredits(id: string): Promise<MovieCredit[]> {
   if (!res.ok) throw new Error("Failed to fetch filmography");
   const data = await res.json();
   return data.cast;
+}
+
+export async function fetchTvShows(): Promise<TvShow[]> {
+  const apiKey = process.env.TMDB_API_KEY!;
+  const res = await fetch(
+    `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`,
+    { next: { revalidate: 86400 } }
+  );
+
+  if (!res.ok) throw new Error(`Gagal memuat data TV shows (${res.status})`);
+  const data = await res.json();
+  return data.results;
 }

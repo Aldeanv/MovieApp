@@ -98,3 +98,13 @@ export interface MovieCredit {
   overview?: string;
   vote_average?: number;
 }
+
+export interface TvShow {
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  vote_average: number;
+  first_air_date: string;
+  backdrop_path: string;
+}

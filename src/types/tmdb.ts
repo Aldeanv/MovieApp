@@ -99,13 +99,56 @@ export interface MovieCredit {
   vote_average?: number;
 }
 
+// types/tmdb.ts
 export interface TvShow {
   id: number;
   name: string;
-  overview: string;
-  poster_path: string;
-  vote_average: number;
-  first_air_date: string;
-  backdrop_path: string;
-  number_of_seasons: number;
+  backdrop_path?: string | null;
+  poster_path?: string | null;
+  overview?: string | null;
+  first_air_date?: string;
+  last_air_date?: string;
+  status?: string;
+  type?: string;
+  number_of_seasons?: number;
+  number_of_episodes?: number;
+  episode_run_time?: number[];
+  vote_average?: number;
+  genres?: { id: number; name: string }[];
+  created_by?: { id: number; name: string }[];
+  networks?: { id: number; name: string; logo_path?: string }[];
+  production_companies?: { id: number; name: string; logo_path?: string }[];
+  seasons?: { id: number; name: string; poster_path?: string; air_date?: string; episode_count?: number; overview?: string; season_number: number }[];
+  credits?: { cast?: CastMember[]; crew?: CrewMember[] };
+  videos?: { results: Video[] };
+  similar?: { results: SimilarShow[] };
+  original_name?: string;
+}
+
+export interface CastMember {
+  id: number;
+  name: string;
+  character: string;
+  profile_path?: string;
+}
+
+export interface CrewMember {
+  id: number;
+  name: string;
+  job: string;
+  profile_path?: string;
+}
+
+export interface Video {
+  key: string;
+  name: string;
+  site: "YouTube" | string;
+  type: "Trailer" | "Teaser" | "Clip";
+}
+
+export interface SimilarShow {
+  id: number;
+  name: string;
+  poster_path?: string;
+  vote_average?: number;
 }

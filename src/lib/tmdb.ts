@@ -82,3 +82,11 @@ export async function fetchTrendingTvShows(): Promise<TvShow[]> {
   const data = await res.json();
   return data.results as TvShow[];
 }
+
+export async function fetchTvShowDetail(id: string): Promise<TvShow> {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${process.env.TMDB_API_KEY}&append_to_response=videos,credits,similar`
+  );
+  if (!res.ok) throw new Error("Failed to fetch TV show details");
+  return res.json();
+}

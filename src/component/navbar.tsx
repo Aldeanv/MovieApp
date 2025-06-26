@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X, Search, Clapperboard, Popcorn, Star, CalendarDays, Home } from "lucide-react";
+import { Menu, X, Search, Clapperboard, Popcorn, Star, CalendarDays, Home, Tv } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -12,8 +12,9 @@ export default function Navbar() {
   const links = [
     { href: "/", label: "Home", icon: <Home size={18} /> },
     { href: "/popular", label: "Popular", icon: <Popcorn size={18} /> },
-    { href: "/upcoming", label: "Upcoming", icon: <CalendarDays size={18} /> },
     { href: "/top-rated", label: "Top Rated", icon: <Star size={18} /> },
+    { href: "/tv", label: "TV Shows", icon: <Tv size={18} /> },
+    { href: "/upcoming", label: "Upcoming", icon: <CalendarDays size={18} /> }
   ];
 
   return (
@@ -34,7 +35,7 @@ export default function Navbar() {
           </div>
 
           {/* Nav Links (Desktop) */}
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden lg:flex items-center space-x-6">
             {links.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -61,7 +62,7 @@ export default function Navbar() {
             </button>
             
             <button
-              className="md:hidden p-2 text-gray-300 hover:text-amber-400 rounded-full hover:bg-gray-800/50 transition-colors"
+              className="lg:hidden p-2 text-gray-300 hover:text-amber-400 rounded-full hover:bg-gray-800/50 transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu"
             >

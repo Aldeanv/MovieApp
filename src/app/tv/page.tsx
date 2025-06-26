@@ -1,17 +1,16 @@
-// app/tv/page.tsx
 import Navbar from "@/component/navbar";
-import { fetchTvShows } from "@/lib/tmdb";
-import TvCarousel from "./TvCarousel"; // client component
+import { fetchTvShows, fetchTrendingTvShows } from "@/lib/tmdb";
+import TvCarouselTrending from "@/component/TvCarousel";
 import Image from "next/image";
 
 export default async function TvShowsPage() {
   const tvShows = await fetchTvShows();
-  const featuredShows = tvShows.slice(0, 5); // top 5
+  const trendingShows = await fetchTrendingTvShows();
 
   return (
     <div className="min-h-screen bg-gray-950 text-white pt-16">
       <Navbar />
-      <TvCarousel featuredShows={featuredShows} />
+      <TvCarouselTrending featuredShows={trendingShows.slice(0, 5)} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div className="flex justify-between items-center mb-8">

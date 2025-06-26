@@ -68,3 +68,14 @@ export async function fetchTvShows(): Promise<TvShow[]> {
   const data = await res.json();
   return data.results;
 }
+
+export async function fetchTrendingTvShows(): Promise<TvShow[]> {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/trending/tv/week?api_key=${process.env.TMDB_API_KEY}&language=en-US`,
+    { next: { revalidate: 86400 } }
+  );
+
+  if (!res.ok) throw new Error("Gagal memuat trending TV shows.");
+  const data = await res.json();
+  return data.results as TvShow[];
+}

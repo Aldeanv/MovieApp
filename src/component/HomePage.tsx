@@ -115,7 +115,7 @@ export default function HomePage({
             </span>
           </h2>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
             {[
               {
                 href: "/popular",
@@ -123,13 +123,6 @@ export default function HomePage({
                 title: "Popular",
                 bg: "bg-blue-500/10",
                 border: "border-blue-500/20",
-              },
-              {
-                href: "/",
-                icon: <Star className="w-8 h-8" />,
-                title: "Top Rated",
-                bg: "bg-yellow-500/10",
-                border: "border-yellow-500/20",
               },
               {
                 href: "/",

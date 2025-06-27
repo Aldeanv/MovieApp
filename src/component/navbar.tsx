@@ -12,7 +12,6 @@ export default function Navbar() {
   const links = [
     { href: "/", label: "Home", icon: <Home size={18} /> },
     { href: "/popular", label: "Popular", icon: <Popcorn size={18} /> },
-    { href: "/top-rated", label: "Top Rated", icon: <Star size={18} /> },
     { href: "/tv", label: "TV Shows", icon: <Tv size={18} /> },
     { href: "/upcoming", label: "Upcoming", icon: <CalendarDays size={18} /> }
   ];

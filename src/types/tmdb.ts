@@ -5,6 +5,7 @@ export interface Movie {
   poster_path?: string;
   vote_average?: number;
   media_type?: "movie" | "tv" | "person";
+  popularity?: number;
 }
 
 export interface Genre {

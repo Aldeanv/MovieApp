@@ -1,4 +1,3 @@
-// app/tv/page.tsx
 import Navbar from "@/component/navbar";
 import { fetchTrendingTvShows } from "@/lib/tmdb";
 import TvCarouselTrending from "@/component/TvCarousel";

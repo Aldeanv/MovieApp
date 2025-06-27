@@ -3,6 +3,7 @@ import { fetchFromTMDb } from "@/lib/tmdb";
 import { Movie } from "@/types/tmdb";
 import Image from "next/image";
 import Link from "next/link";
+import { Clapperboard } from "lucide-react";
 import { Star, Play, Calendar } from "lucide-react";
 
 export default async function PopulerPage() {

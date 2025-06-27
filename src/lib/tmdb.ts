@@ -90,3 +90,18 @@ export async function fetchTvShowDetail(id: string): Promise<TvShow> {
   if (!res.ok) throw new Error("Failed to fetch TV show details");
   return res.json();
 }
+
+export async function fetchUpcomingMovies(page = 1): Promise<MovieDetail[]> {
+  const res = await fetch(
+    `${BASE_URL}/movie/upcoming?api_key=${process.env.TMDB_API_KEY}&language=en-US&page=${page},&sort_by=release_date.asc`,
+    { next: { revalidate: 86400 } }
+  );
+
+  if (!res.ok) {
+    throw new Error("Gagal memuat data upcoming movies.");
+  }
+
+  const data = await res.json();
+  return data.results as MovieDetail[];
+
+}

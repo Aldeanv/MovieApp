@@ -1,9 +1,11 @@
+// app/search/page.tsx
 import { fetchFromTMDb } from "@/lib/tmdb";
 import { TMDbResponse } from "@/types/tmdb";
 import Image from "next/image";
 import Link from "next/link";
 import { Search, Star, Calendar, Film, Tv, User } from "lucide-react";
 import Navbar from "@/component/navbar";
+import ClientSearchInput from "@/component/ClientSearchInput";
 
 interface SearchPageProps {
   searchParams: { query?: string };
@@ -32,17 +34,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           <Search size={24} />
           <h1 className="text-3xl font-bold">Search Results</h1>
         </div>
-        <div className="relative max-w-xl">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
-            <Search size={18} />
-          </div>
-          <input
-            type="text"
-            defaultValue={query}
-            placeholder="Search for movies, TV shows, or people..."
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-700/50 focus:ring-2 focus:ring-amber-400 focus:border-amber-400 bg-gray-800/50 text-gray-100 placeholder-gray-500"
-          />
-        </div>
+
+        {/* Search Input */}
+        <ClientSearchInput />
       </div>
 
       {/* Results */}
@@ -128,7 +122,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                     <h3 className="font-medium line-clamp-1 text-gray-100">{title}</h3>
                     <div className="flex justify-between items-center text-sm text-gray-400 mt-1">
                       {isPerson ? (
-                        <span className="italic text-sm text-pink-400">Known for: {item.known_for_department}</span>
+                        <span className="italic text-sm text-pink-400">
+                          Known for: {item.known_for_department}
+                        </span>
                       ) : (
                         <>
                           <span className="flex items-center gap-1">

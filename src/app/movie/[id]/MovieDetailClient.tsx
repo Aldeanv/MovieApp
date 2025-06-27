@@ -10,7 +10,7 @@ import Navbar from "@/component/navbar";
 export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
   const trailers = movie.videos?.results.filter(v => v.site === "YouTube");
   const directors = movie.credits?.crew.filter((c) => c.job === "Director");
-  const topCast = movie.credits?.cast.slice(0, 10);
+  const topCast = movie.credits?.cast;
   const similarMovies = movie.similar?.results?.slice(0, 6);
   
   // Format currency
@@ -351,7 +351,7 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
                   whileHover={cardHover}
                   className="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700/50 transition-all"
                 >
-                  <Link href={`/cast/${cast.id}`} className="block">
+                  <Link href={`/person/${cast.id}`} className="block">
                     <div className="relative aspect-[2/3]">
                       {cast.profile_path ? (
                         <Image

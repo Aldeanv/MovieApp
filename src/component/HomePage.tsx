@@ -123,31 +123,42 @@ export default function HomePage({
                 title: "Popular",
                 bg: "bg-blue-500/10",
                 border: "border-blue-500/20",
+                colSpan: "col-span-1",
               },
               {
-                href: "/",
+                href: "/tv",
                 icon: <Tv className="w-8 h-8" />,
                 title: "TV Shows",
                 bg: "bg-pink-500/10",
                 border: "border-pink-500/20",
+                colSpan: "col-span-1",
               },
               {
-                href: "/",
+                href: "/upcoming",
                 icon: <Clapperboard className="w-8 h-8" />,
                 title: "Upcoming",
                 bg: "bg-purple-500/10",
                 border: "border-purple-500/20",
+                // col-span-2 hanya aktif di layar kecil
+                colSpan: "col-span-2 md:col-span-1",
               },
             ].map((item, index) => (
               <motion.div
                 key={index}
-                className={`group ${item.bg} ${item.border} border rounded-xl p-6 flex flex-col items-center gap-3 transition-all cursor-pointer hover:shadow-lg hover:-translate-y-1`}
+                className={`${item.colSpan} ${item.bg} ${item.border} border rounded-xl p-6 flex flex-col items-center gap-3 transition-all cursor-pointer hover:shadow-lg hover:-translate-y-1`}
                 whileHover={{ scale: 1.03 }}
-                variants={slideUp}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  show: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.5, ease: "easeOut" },
+                  },
+                }}
               >
                 <Link
                   href={item.href}
-                  className="flex flex-col items-center gap-3 w-full h-full"
+                  className="flex flex-col items-center gap-3"
                 >
                   <div className="p-4 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 transition-transform group-hover:scale-110">
                     {item.icon}
@@ -254,66 +265,38 @@ export default function HomePage({
 
       {/* Footer */}
       <footer className="bg-gray-900 py-12 px-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <Clapperboard className="text-pink-500" />
-              MovieHub
-            </h3>
-            <p className="text-gray-400">
-              Your ultimate destination for discovering and exploring movies
-              from around the world.
-            </p>
-          </div>
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                <a href="#" className="hover:text-pink-400 transition">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-pink-400 transition">
-                  Movies
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-pink-400 transition">
-                  TV Shows
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-pink-400 transition">
-                  About Us
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Categories</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                <a href="#" className="hover:text-pink-400 transition">
-                  Popular
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-pink-400 transition">
-                  Trending
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-pink-400 transition">
-                  Upcoming
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-pink-400 transition">
-                  Top Rated
-                </a>
-              </li>
-            </ul>
+        <div className="max-w-7xl md:flex justify-between mx-8">
+          <div className="space-x-4 flex justify-between">
+            <div className="w-xs pr-20">
+              <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <Clapperboard className="text-pink-500" />
+                MovieHub
+              </h3>
+              <p className="text-gray-400">
+                Your ultimate destination for discovering and exploring movies
+                from around the world.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <a href="#" className="hover:text-pink-400 transition">
+                    Popular
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-pink-400 transition">
+                    Trending
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-pink-400 transition">
+                    Upcoming
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
           <div>
             <h4 className="text-lg font-semibold mb-4">Connect</h4>

@@ -1,4 +1,3 @@
-// lib/tmdb.ts
 import { TMDbResponse, MovieDetail } from "@/types/tmdb";
 import { CastDetail, MovieCredit } from "@/types/tmdb";
 import { TvShow } from "@/types/tmdb";

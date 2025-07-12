@@ -40,7 +40,6 @@ export default function Navbar() {
     }
   };
 
-  // Close search when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
@@ -68,7 +67,7 @@ export default function Navbar() {
                 <Clapperboard className="h-6 w-6 text-white" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
-                CineVerse
+                ReelScope
               </span>
             </Link>
           </div>

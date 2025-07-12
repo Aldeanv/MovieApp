@@ -224,7 +224,7 @@ export default function HomePage({
           </div>
         </div>
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
-          &copy; {new Date().getFullYear()} MovieHub. All rights reserved.
+          &copy; {new Date().getFullYear()} ReelScope. All rights reserved.
         </div>
       </footer>
     </div>

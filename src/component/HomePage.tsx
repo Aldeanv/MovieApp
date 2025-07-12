@@ -1,15 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import {
-  Search,
-  Play,
-  Star,
-  Tv,
-  Clapperboard,
-  Calendar,
-  Heart,
-} from "lucide-react";
+import { Search, Play, Tv, Clapperboard } from "lucide-react";
 import Navbar from "@/component/navbar";
 import PopularSection from "@/component/PopularSection";
 import TrendingSection from "@/component/TrendingSection";
@@ -178,90 +170,6 @@ export default function HomePage({
         <PopularSection movies={popularData.results} />
         <TrendingSection movies={trendingData.results} />
       </div>
-
-      {/* Why Choose Us Section */}
-      <section className="py-16 px-4 bg-gradient-to-b from-gray-900 to-gray-950">
-        <div className="max-w-7xl mx-auto">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-12 text-center"
-            initial="hidden"
-            animate="show"
-            variants={slideUp}
-          >
-            <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-              Why Choose Our Platform
-            </span>
-          </motion.h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: <Star className="w-10 h-10 text-yellow-400" />,
-                title: "Curated Selection",
-                description:
-                  "We handpick the best movies from around the world to ensure quality entertainment.",
-              },
-              {
-                icon: <Calendar className="w-10 h-10 text-blue-400" />,
-                title: "Daily Updates",
-                description:
-                  "Our database is updated daily with the latest releases and trending content.",
-              },
-              {
-                icon: <Heart className="w-10 h-10 text-pink-400" />,
-                title: "Personalized Recommendations",
-                description:
-                  "Get tailored suggestions based on your viewing history and preferences.",
-              },
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                className="bg-gray-800/50 p-6 rounded-xl border border-gray-700 hover:border-pink-500/30 transition-all"
-                variants={slideUp}
-                initial="hidden"
-                animate="show"
-                whileHover={{ y: -5 }}
-              >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="p-3 rounded-full bg-gray-700">
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold">{feature.title}</h3>
-                </div>
-                <p className="text-gray-300">{feature.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Newsletter Section */}
-      <section className="py-16 px-4 bg-gradient-to-r from-gray-900 to-gray-800">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div initial="hidden" animate="show" variants={fadeIn}>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Stay Updated
-            </h2>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Subscribe to our newsletter for weekly movie recommendations and
-              updates.
-            </p>
-            <form className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="flex-1 bg-gray-700 text-white px-5 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
-              />
-              <button
-                type="submit"
-                className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all"
-              >
-                Subscribe
-              </button>
-            </form>
-          </motion.div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="bg-gray-900 py-12 px-4">

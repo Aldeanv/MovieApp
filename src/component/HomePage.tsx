@@ -178,12 +178,8 @@ export default function HomePage({
             <div className="w-xs pr-20">
               <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                 <Clapperboard className="text-pink-500" />
-                MovieHub
+                ReelScope
               </h3>
-              <p className="text-gray-400">
-                Your ultimate destination for discovering and exploring movies
-                from around the world.
-              </p>
             </div>
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>

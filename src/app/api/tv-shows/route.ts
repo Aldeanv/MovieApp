@@ -6,10 +6,11 @@ export async function GET(req: NextRequest) {
   try {
     const shows = await fetchTvShows(page);
     return NextResponse.json(shows);
-  } catch (error: any) {
-    return NextResponse.json(
-      { message: error.message || "Error" },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    let message = "Error";
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    return NextResponse.json({ message }, { status: 500 });
   }
 }

@@ -3,7 +3,7 @@
 import { MovieDetail } from "@/types/tmdb";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import {
   Star,
   Clock,
@@ -36,13 +36,17 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
   };
 
   // Animation variants
-  const fadeIn = {
+  const fadeIn: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { duration: 0.8, ease: "easeOut" },
+      transition: {
+        duration: 0.8,
+        ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+      },
     },
   };
+
   const slideUp = {
     hidden: { opacity: 0, y: 40 },
     show: {
@@ -50,7 +54,7 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
       y: 0,
       transition: {
         duration: 0.6,
-        ease: [0.16, 1, 0.3, 1],
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
       },
     },
   };
@@ -135,8 +139,8 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
                       className="text-xl text-gray-300 italic flex items-center gap-2"
                       variants={slideUp}
                     >
-                      <Quote size={18} className="text-amber-400" />"
-                      {movie.tagline}"
+                      <Quote size={18} className="text-amber-400" />
+                      &quot;{movie.tagline}&quot;
                     </motion.p>
                   )}
                 </motion.div>
@@ -156,14 +160,20 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
                   <span className="flex items-center gap-2 text-gray-300">
                     <Calendar size={18} className="text-gray-400" />
                     <span>
-                      {new Date(movie.release_date).toLocaleDateString()}
+                      {movie.release_date
+                        ? new Date(movie.release_date).toLocaleDateString()
+                        : "Unknown"}
                     </span>
                   </span>
 
                   <span className="flex items-center gap-2 text-gray-300">
                     <Clock size={18} className="text-gray-400" />
                     <span>
-                      {Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m
+                      {movie.runtime !== undefined
+                        ? `${Math.floor(movie.runtime / 60)}h ${
+                            movie.runtime % 60
+                          }m`
+                        : "Unknown runtime"}
                     </span>
                   </span>
 
@@ -180,21 +190,23 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
                 </motion.div>
 
                 {/* Financial Info */}
-                {(movie.budget > 0 || movie.revenue > 0) && (
+                {((movie.budget ?? 0) > 0 || (movie.revenue ?? 0) > 0) && (
                   <motion.div
                     variants={slideUp}
                     className="flex flex-wrap gap-4 pt-2"
                   >
-                    {movie.budget > 0 && (
+                    {(movie.budget ?? 0) > 0 && (
                       <div className="flex items-center gap-2 text-gray-300">
                         <DollarSign size={16} className="text-gray-400" />
-                        <span>Budget: {formatCurrency(movie.budget)}</span>
+                        <span>Budget: {formatCurrency(movie.budget ?? 0)}</span>
                       </div>
                     )}
-                    {movie.revenue > 0 && (
+                    {(movie.revenue ?? 0) > 0 && (
                       <div className="flex items-center gap-2 text-gray-300">
                         <DollarSign size={16} className="text-green-400" />
-                        <span>Revenue: {formatCurrency(movie.revenue)}</span>
+                        <span>
+                          Revenue: {formatCurrency(movie.revenue ?? 0)}
+                        </span>
                       </div>
                     )}
                   </motion.div>

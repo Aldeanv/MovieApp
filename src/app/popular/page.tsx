@@ -60,7 +60,7 @@ export default async function PopulerPage() {
                       </div>
                       <div className="flex items-center gap-1 text-sm text-white">
                         <Play size={14} />
-                        <span>{movie.popularity.toFixed(0)}</span>
+                        <span>{movie.popularity?.toFixed(0) ?? "0"}</span>
                       </div>
                     </div>
                   </div>

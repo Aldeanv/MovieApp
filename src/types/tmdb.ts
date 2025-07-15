@@ -52,6 +52,7 @@ export interface MovieDetail {
   status?: string;
   vote_average?: number;
   genres?: Genre[];
+  original_language:string
   production_companies?: { name: string }[];
   videos?: {
     results: Video[];

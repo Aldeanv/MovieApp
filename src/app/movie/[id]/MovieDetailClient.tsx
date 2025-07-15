@@ -363,13 +363,11 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
           <div className="bg-gray-800/50 p-6 rounded-xl border border-gray-700/50">
             <h3 className="text-xl font-bold mb-4 text-amber-400">Languages</h3>
             <div className="space-y-3">
-              {movie.spoken_languages?.length > 0 && (
+              {movie.spoken_languages && movie.spoken_languages.length > 0 && (
                 <div>
                   <p className="text-gray-400 text-sm">Spoken Languages</p>
                   <p className="text-gray-300">
-                    {movie.spoken_languages
-                      .map((lang) => lang.english_name)
-                      .join(", ")}
+                    {movie.spoken_languages.map((lang) => lang.name).join(", ")}
                   </p>
                 </div>
               )}
@@ -386,7 +384,7 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
         </motion.section>
 
         {/* Cast Section */}
-        {topCast?.length > 0 && (
+        {topCast?.length && topCast.length > 0 && (
           <motion.section
             className="mb-16"
             initial="hidden"
@@ -399,7 +397,7 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
                 <User size={24} className="text-amber-400" />
                 <span>Top Cast</span>
               </h2>
-              {topCast.length > 5 && (
+              {(topCast?.length ?? 0) > 5 && (
                 <button
                   onClick={() => setShowAllCast((prev) => !prev)}
                   className="text-sm text-amber-400 hover:underline"

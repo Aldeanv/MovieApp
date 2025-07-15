@@ -343,7 +343,7 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
               <div>
                 <p className="text-gray-400 text-sm">Budget</p>
                 <p className="text-gray-300">
-                  {movie.budget > 0
+                  {movie.budget && movie.budget > 0
                     ? formatCurrency(movie.budget)
                     : "Not available"}
                 </p>
@@ -351,7 +351,7 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
               <div>
                 <p className="text-gray-400 text-sm">Revenue</p>
                 <p className="text-gray-300">
-                  {movie.revenue > 0
+                  {movie.revenue
                     ? formatCurrency(movie.revenue)
                     : "Not available"}
                 </p>

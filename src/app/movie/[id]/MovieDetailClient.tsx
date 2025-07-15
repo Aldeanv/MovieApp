@@ -303,7 +303,7 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
               Production
             </h3>
             <div className="space-y-3">
-              {movie.production_companies?.length > 0 && (
+              {movie.production_companies?.length ? (
                 <div>
                   <p className="text-gray-400 text-sm">Production Companies</p>
                   <p className="text-gray-300">
@@ -312,17 +312,19 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
                       .join(", ")}
                   </p>
                 </div>
-              )}
-              {movie.production_countries?.length > 0 && (
+              ) : null}
+
+              {movie.production_countries?.length ? (
                 <div>
                   <p className="text-gray-400 text-sm">Production Countries</p>
                   <p className="text-gray-300">
                     {movie.production_countries
-                      .map((country) => country.name)
+                      .map((country: { name: string }) => country.name)
                       .join(", ")}
                   </p>
                 </div>
-              )}
+              ) : null}
+
               {movie.status && (
                 <div>
                   <p className="text-gray-400 text-sm">Status</p>

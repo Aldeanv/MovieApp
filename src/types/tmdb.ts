@@ -67,6 +67,7 @@ export interface MovieDetail {
   revenue?: number;
   budget?: number;
   spoken_languages?: { name: string }[];
+  production_countries?: { name: string }[];
 }
 
 export interface TMDbResponse {

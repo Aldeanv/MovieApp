@@ -213,29 +213,30 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
                 )}
 
                 {/* Languages */}
-                {movie.spoken_languages?.length > 0 && (
-                  <motion.div
-                    variants={slideUp}
-                    className="flex items-center gap-2 pt-2"
-                  >
-                    <Languages size={16} className="text-gray-400" />
-                    <span className="text-gray-300">
-                      {movie.spoken_languages
-                        .map((lang) => lang.english_name)
-                        .join(", ")}
-                    </span>
-                  </motion.div>
-                )}
+                {movie.spoken_languages?.length &&
+                  movie.spoken_languages.length > 0 && (
+                    <motion.div
+                      variants={slideUp}
+                      className="flex items-center gap-2 pt-2"
+                    >
+                      <Languages size={16} className="text-gray-400" />
+                      <span className="text-gray-300">
+                        {movie.spoken_languages
+                          .map((lang) => lang.name)
+                          .join(", ")}
+                      </span>
+                    </motion.div>
+                  )}
 
                 {/* Directors */}
-                {directors?.length > 0 && (
+                {directors?.length ? (
                   <motion.div variants={slideUp} className="pt-2">
                     <p className="text-gray-400 text-sm">Directed by</p>
                     <div className="flex flex-wrap gap-2 mt-1">
                       {directors.map((director) => (
                         <Link
                           key={director.id}
-                          href={`/cast/${director.id}`}
+                          href={`/person/${director.id}`}
                           className="text-amber-400 hover:text-amber-300 transition"
                         >
                           {director.name}
@@ -243,10 +244,10 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
                       ))}
                     </div>
                   </motion.div>
-                )}
+                ) : null}
 
                 {/* Videos Section */}
-                {trailers?.length > 0 && (
+                {trailers?.length ? (
                   <motion.div variants={slideUp} className="pt-4">
                     <div className="flex flex-wrap gap-3">
                       {trailers.slice(0, 3).map((video) => (
@@ -263,7 +264,7 @@ export default function MovieDetailClient({ movie }: { movie: MovieDetail }) {
                       ))}
                     </div>
                   </motion.div>
-                )}
+                ) : null}
               </div>
             </div>
           </motion.div>
